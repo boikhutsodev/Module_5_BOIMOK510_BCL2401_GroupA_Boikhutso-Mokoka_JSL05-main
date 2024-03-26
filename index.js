@@ -41,7 +41,7 @@ function displayPlaylists(playlists) {
         const playlistDiv = document.createElement("div");
         playlistDiv.classList.add("playlist");
         playlistDiv.innerHTML = `<h2>${guardian}'s Playlist</h2>`;
-        
+        //const ul = document.createElement("ul");
         playlist.forEach(song => {
             const paragraph = document.createElement("p");
             paragraph.classList.add('song');
