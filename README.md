@@ -45,8 +45,3 @@ In this challenge, you'll combine your knowledge of JavaScript arrays and the `m
 This challenge will test your ability to manipulate arrays and objects, use the `map()` function for data transformation, and dynamically update the DOM based on data. Good luck, and may your mix be truly awesome!
 
 
-
-
-
-
-
