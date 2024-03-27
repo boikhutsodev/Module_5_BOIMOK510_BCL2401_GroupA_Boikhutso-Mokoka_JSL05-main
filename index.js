@@ -1,59 +1,65 @@
-@ -1,58 +0,0 @@
-// Sample menu data (Consider fetching this data from a server in a real-world scenario)
-const menu = {
-  Starters: ["Garlic Bread", "Bruschetta"],
-  MainCourses: ["Margherita Pizza", "Spaghetti Carbonara"],
-  Desserts: ["Tiramisu", "Cheesecake"]
+// Array of song objects. Add at least 5 songs with title, artist, and genre properties.
+const songs = [
+    { title: "Hooked on a Feeling", artist: "Blue Swede", genre: "Pop" },
+    { title: "Moonage Daydream", artist: "David Bowie", genre: "Rock" },
+    { title: "I Want You Back", artist: "The Jackson 5", genre: "Pop" },
+    { title: "Spirit in the Sky", artist: "Norman Greenbaum", genre: "Rock" },
+    { title: "Cherry Bomb", artist: "The Runaways", genre: "Rock" },
+    { title: "Escape (The Piña Colada Song)", artist: "Rupert Holmes", genre: "Pop" },
+    { title: "O-O-H Child", artist: "The Five Stairsteps", genre: "R&B" },
+    { title: "Ain't No Mountain High Enough", artist: "Marvin Gaye & Tammi Terrell", genre: "R&B" },
+    { title: "Come and Get Your Love", artist: "Redbone", genre: "Rock" },
+    { title: "I'm Not in Love", artist: "10cc", genre: "Pop" },
+    { title: "Fooled Around and Fell in Love", artist: "Elvin Bishop", genre: "Rock" },
+    // Feel free to add even more songs
+];
+
+// Object containing each Guardian's preferred genre
+const guardians = {
+    "Star-Lord": "Rock",
+    "Gamora": "Pop",
+    "Drax": "R&B",
+    "Rocket": "Rock",
+    "Groot": "Pop"
 };
 
-// Function to display menu items by category
-function displayMenuItems(menu) {
-  const menuContainer = document.getElementById('menu');
-  for (const [category, items] of Object.entries(menu)) {
-    const categoryElem = document.createElement('h3');
-    categoryElem.textContent = category;
-    menuContainer.appendChild(categoryElem);
-
-    const itemsList = document.createElement('ul');
-    menuContainer.appendChild(itemsList);
-    items.forEach(item => {
-      const itemElem = document.createElement('li');
-      itemElem.textContent = item;
-      itemElem.onclick = () => addToOrder(item);
-      itemsList.appendChild(itemElem);
+// Function to generate playlist based on preferred genre
+function generatePlaylist(guardians, songs) {
+    // Use the map() function to create playlists for each Guardian
+    const playlists = Object.keys(guardians).map(guardian => {
+        const genre = guardians[guardian];
+        const playlist = songs.filter(song => song.genre === genre);
+        return { guardian, playlist };
     });
-  }
+    return playlists;
 }
 
-// Callback function for adding an item to the order
-function addToOrder(itemName) {
-  const orderList = document.getElementById('order-items');
-  const orderTotalElem = document.getElementById('order-total');
+// Function to display playlists
+function displayPlaylists(playlists) {
+    const playlistsContainer = document.getElementById("playlists");
+    playlists.forEach(({ guardian, playlist }) => {
+        const playlistDiv = document.createElement("div");
+        playlistDiv.classList.add("playlist");
+        playlistDiv.innerHTML = `<h2>${guardian}'s Playlist</h2>`;
+        
+        playlist.forEach(song => {
+            const paragraph = document.createElement("p");
+            paragraph.classList.add('song');
 
-  // Create a list item for the order
-  const orderItem = document.createElement('li');
-  orderItem.textContent = itemName;
-  orderList.appendChild(orderItem);
+            const songTitle = document.createElement('span');
+            songTitle.classList.add('song-title');
+            songTitle.textContent = song.title;
 
-  // Calculate and update the total price
-  const currentTotal = parseFloat(orderTotalElem.textContent);
-  const itemPrice = 10; // Assuming each item costs $10 (you can customize this)
-  const newTotal = currentTotal + itemPrice;
-  orderTotalElem.textContent = newTotal.toFixed(2);
+            paragraph.appendChild(songTitle);
+            paragraph.innerHTML += ` by ${song.artist}`;
+            playlistDiv.appendChild(paragraph);
+            
+        });
+        
+        playlistsContainer.appendChild(playlistDiv);
+    });
 }
 
-// Function to initialize the menu system
-function initMenuSystem(menu) {
-  displayMenuItems(menu);
-}
-
-// Call the init function to start the menu system
-initMenuSystem(menu);
-
-
-// This JavaScript code does the following:
-
-// 1. Defines the menu data in the `menu` object.
-// 2. Implements the `displayMenuItems` function to dynamically generate and display menu items grouped by category.
-// 3. Implements the `addToOrder` function as a callback for adding items to the order. It updates the order summary and total price.
-// 4. Calls the `initMenuSystem` function to initialize the menu system and display the menu items.
+// Call generatePlaylist and display the playlists for each Guardian
+const playlists = generatePlaylist(guardians, songs);
+displayPlaylists(playlists);
